@@ -42,9 +42,9 @@ export const config: Config = {
     url: requireEnv('DATABASE_URL'),
   },
   firebase: {
-    projectId: requireEnv('FIREBASE_PROJECT_ID'),
-    clientEmail: requireEnv('FIREBASE_CLIENT_EMAIL'),
-    serviceAccountPath: requireEnv('FIREBASE_SERVICE_ACCOUNT_PATH'),
+    projectId: process.env.FIREBASE_PROJECT_ID || '',
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL || '',
+    serviceAccountPath: process.env.FIREBASE_SERVICE_ACCOUNT_PATH || '',
     apiKey: process.env.FIREBASE_API_KEY || '',
     authDomain: process.env.FIREBASE_AUTH_DOMAIN || '',
   },
