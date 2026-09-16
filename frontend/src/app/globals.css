@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #F2F4E6;
+    --bg-card: #FFFDF7;
+    --ink: #14312A;
+    --ink-soft: #3E5A4F;
+    --green-deep: #123A2C;
+    --green-mid: #2E7D5C;
+    --green-pale: #D3E6C6;
+    --gold: #E3A23A;
+    --gold-deep: #C4831F;
+    --brown: #6B4226;
+    --line: rgba(20,49,42,0.14);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+  }
+
+  h1, h2, h3, .display {
+    font-family: var(--font-fraunces), serif;
+    color: var(--green-deep);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  .focus-ring {
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-deep;
+  }
+}
+
+/* Custom blobs and gradients for the art */
+.hero-blob {
+  background: radial-gradient(circle at center, rgba(211,230,198,1) 0%, rgba(211,230,198,0) 70%);
+}
