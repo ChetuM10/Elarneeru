@@ -70,7 +70,14 @@ export default function Home() {
       setPincodeResult({ msg: 'Enter a valid 6-digit pincode.', type: 'no' });
       return;
     }
-    const served = new Set(['560001','560008','560034','560038','560068','560095','560102', '560011', '560078', '560085']);
+    const served = new Set([
+      '560001','560008','560034','560038','560068','560095','560102','560011','560078','560085',
+      '560018', // Chamarajpet
+      '560060', // Kengeri
+      '560072', // Nagarbhavi
+      '560083', // Gottigere
+      '562159', // Ramanagara
+    ]);
     if (served.has(pincode)) {
       setPincodeResult({ msg: "You're in luck — we deliver to your area.", type: 'ok' });
     } else {

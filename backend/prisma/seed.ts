@@ -86,6 +86,11 @@ async function seed() {
     { pincode: '560011', area: 'Jayanagar' },
     { pincode: '560078', area: 'BTM Layout' },
     { pincode: '560085', area: 'Marathahalli' },
+    { pincode: '560018', area: 'Chamarajpet' },
+    { pincode: '560060', area: 'Kengeri' },
+    { pincode: '560072', area: 'Nagarbhavi' },
+    { pincode: '560083', area: 'Gottigere' },
+    { pincode: '562159', area: 'Ramanagara' },
   ];
 
   for (const area of areas) {
