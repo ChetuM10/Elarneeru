@@ -1,0 +1,227 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── Enums ──
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  DELIVERY_PARTNER
+}
+
+enum SubscriptionStatus {
+  PENDING
+  ACTIVE
+  PAUSED
+  CANCELLED
+}
+
+enum DeliveryFrequency {
+  DAILY
+  ALTERNATE_DAYS
+  TWICE_A_WEEK
+  WEEKLY
+  CUSTOM
+}
+
+enum DeliveryStatus {
+  PENDING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  MISSED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  INITIATED
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  RAZORPAY
+  COD
+  PAY_AT_DELIVERY
+}
+
+// ── Models ──
+
+model User {
+  id            String   @id @default(uuid())
+  firebaseUid   String   @unique @map("firebase_uid")
+  phone         String   @unique
+  name          String?
+  email         String?
+  role          UserRole @default(CUSTOMER)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  addresses     Address[]
+  subscriptions Subscription[]
+  payments      Payment[]
+
+  @@map("users")
+}
+
+model Address {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  label         String   @default("Home")   // Home, Office, Other
+  line1         String
+  line2         String?
+  city          String   @default("Bengaluru")
+  state         String   @default("Karnataka")
+  pincode       String
+  landmark      String?
+  lat           Float?
+  lng           Float?
+  isDefault     Boolean  @default(false) @map("is_default")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscriptions Subscription[]
+
+  @@map("addresses")
+}
+
+model Product {
+  id            String   @id @default(uuid())
+  name          String
+  description   String?
+  unitLabel     String   @default("coconut") @map("unit_label")  // "coconut"
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  plans         Plan[]
+
+  @@map("products")
+}
+
+model Plan {
+  id            String            @id @default(uuid())
+  productId     String            @map("product_id")
+  name          String                                    // "Solo Sip", "Family Pack", "Office Crate"
+  slug          String            @unique                 // "solo-sip", "family-pack", "office-crate"
+  description   String?
+  tag           String?                                   // "Solo", "Most chosen", "Bulk"
+  quantity      Int                                       // Number of coconuts per delivery
+  pricePerUnit  Int               @map("price_per_unit")  // Price in paise (6500 = ₹65)
+  frequency     DeliveryFrequency @default(DAILY)
+  isActive      Boolean           @default(true) @map("is_active")
+  createdAt     DateTime          @default(now()) @map("created_at")
+
+  product       Product           @relation(fields: [productId], references: [id])
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+model Subscription {
+  id            String             @id @default(uuid())
+  userId        String             @map("user_id")
+  planId        String             @map("plan_id")
+  addressId     String             @map("address_id")
+  status        SubscriptionStatus @default(PENDING)
+  quantity      Int                @default(1)
+  startDate     DateTime           @map("start_date")
+  endDate       DateTime?          @map("end_date")
+  nextDelivery  DateTime?          @map("next_delivery")
+  createdAt     DateTime           @default(now()) @map("created_at")
+  updatedAt     DateTime           @updatedAt @map("updated_at")
+
+  user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan          Plan               @relation(fields: [planId], references: [id])
+  address       Address            @relation(fields: [addressId], references: [id])
+  pauses        SubscriptionPause[]
+  deliveries    Delivery[]
+  payments      Payment[]
+  skipDates     SkipDate[]
+
+  @@map("subscriptions")
+}
+
+model SubscriptionPause {
+  id             String       @id @default(uuid())
+  subscriptionId String       @map("subscription_id")
+  pauseStart     DateTime     @map("pause_start")
+  pauseEnd       DateTime?    @map("pause_end")
+  reason         String?
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@map("subscription_pauses")
+}
+
+model SkipDate {
+  id             String       @id @default(uuid())
+  subscriptionId String       @map("subscription_id")
+  date           DateTime
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@unique([subscriptionId, date])
+  @@map("skip_dates")
+}
+
+model Delivery {
+  id              String         @id @default(uuid())
+  subscriptionId  String         @map("subscription_id")
+  scheduledDate   DateTime       @map("scheduled_date")
+  status          DeliveryStatus @default(PENDING)
+  quantity        Int
+  deliveredAt     DateTime?      @map("delivered_at")
+  deliveryPartner String?        @map("delivery_partner")
+  notes           String?
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+
+  subscription    Subscription   @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@unique([subscriptionId, scheduledDate])
+  @@map("deliveries")
+}
+
+model Payment {
+  id               String        @id @default(uuid())
+  userId           String        @map("user_id")
+  subscriptionId   String?       @map("subscription_id")
+  amount           Int                                    // Amount in paise
+  currency         String        @default("INR")
+  method           PaymentMethod @default(RAZORPAY)
+  status           PaymentStatus @default(INITIATED)
+  razorpayOrderId  String?       @unique @map("razorpay_order_id")
+  razorpayPaymentId String?      @unique @map("razorpay_payment_id")
+  razorpaySignature String?      @map("razorpay_signature")
+  periodStart      DateTime?     @map("period_start")
+  periodEnd        DateTime?     @map("period_end")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription     Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  @@map("payments")
+}
+
+model ServiceableArea {
+  id        String   @id @default(uuid())
+  pincode   String   @unique
+  area      String?                       // e.g. "Indiranagar", "HSR Layout"
+  city      String   @default("Bengaluru")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("serviceable_areas")
+}
