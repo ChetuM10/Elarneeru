@@ -93,9 +93,9 @@ export default function Home() {
   return (
     <>
       <header className="sticky top-0 z-50 bg-[rgba(242,244,230,0.88)] backdrop-blur-md border-b border-line">
-        <nav className="flex items-center justify-between py-4 px-8 max-w-[1180px] mx-auto">
-          <Link href="/" className="font-serif text-2xl font-semibold text-green-deep flex items-center gap-2">
-            <svg className="w-[26px] h-[26px] shrink-0" viewBox="0 0 26 26" fill="none">
+        <nav className="flex items-center justify-between py-3.5 px-8 max-sm:px-4 max-w-[1180px] mx-auto">
+          <Link href="/" className="font-serif text-2xl max-sm:text-xl font-semibold text-green-deep flex items-center gap-2 shrink-0">
+            <svg className="w-[26px] h-[26px] max-sm:w-[22px] max-sm:h-[22px] shrink-0" viewBox="0 0 26 26" fill="none">
               <circle cx="13" cy="14" r="10" fill="#E3A23A"/>
               <path d="M13 4C13 4 9 6 9 9" stroke="#123A2C" strokeWidth="1.6" strokeLinecap="round"/>
               <path d="M13 4C13 4 17 6 17 9" stroke="#123A2C" strokeWidth="1.6" strokeLinecap="round"/>
@@ -108,19 +108,19 @@ export default function Home() {
             <a href="#freshness" className="hover:text-green-deep transition-colors">Why us</a>
             <a href="#stories" className="hover:text-green-deep transition-colors">Stories</a>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 max-sm:gap-2.5 shrink-0">
             {user ? (
               <>
                 {dbUser?.role === 'ADMIN' && (
-                  <Link href="/admin" className="text-[0.94rem] font-semibold text-gold-deep hover:text-gold transition-colors mr-2">Admin Panel</Link>
+                  <Link href="/admin" className="text-[0.94rem] max-sm:text-[0.82rem] font-semibold text-gold-deep hover:text-gold transition-colors mr-1 whitespace-nowrap">Admin</Link>
                 )}
-                <Link href="/dashboard" className="text-[0.94rem] font-semibold text-green-deep hover:text-green-mid transition-colors">Dashboard</Link>
-                <button onClick={logout} className="text-[0.94rem] font-semibold text-ink-soft hover:text-red-500 transition-colors">Logout</button>
+                <Link href="/dashboard" className="text-[0.94rem] max-sm:text-[0.82rem] font-semibold text-green-deep hover:text-green-mid transition-colors whitespace-nowrap">Dashboard</Link>
+                <button onClick={logout} className="text-[0.94rem] max-sm:text-[0.82rem] font-semibold text-ink-soft hover:text-red-500 transition-colors whitespace-nowrap">Logout</button>
               </>
             ) : (
               <>
-                <button onClick={() => setIsLoginOpen(true)} className="text-[0.94rem] font-semibold text-ink-soft hover:text-green-deep transition-colors">Log in</button>
-                <button onClick={handleStartSubscription} className="bg-green-deep text-[#F9F7EE] py-2.5 px-5 rounded-lg font-semibold text-[0.94rem] hover:bg-green-mid hover:-translate-y-[1px] transition-all">
+                <button onClick={() => setIsLoginOpen(true)} className="text-[0.94rem] max-sm:text-[0.82rem] font-semibold text-ink-soft hover:text-green-deep transition-colors whitespace-nowrap px-1">Log in</button>
+                <button onClick={handleStartSubscription} className="bg-green-deep text-[#F9F7EE] py-2.5 px-5 max-sm:py-2 max-sm:px-3.5 rounded-lg font-semibold text-[0.94rem] max-sm:text-[0.82rem] whitespace-nowrap hover:bg-green-mid hover:-translate-y-[1px] transition-all shrink-0">
                   Start subscription
                 </button>
               </>
@@ -221,14 +221,14 @@ export default function Home() {
           <h2 className="text-[clamp(1.9rem,3vw,2.5rem)] mb-4">From the farm to your fridge, in one day</h2>
           <p className="text-ink-soft text-[1.06rem] max-w-[50ch]">Most tender coconuts sold on the street have been sitting around for days. Ours haven't. Here's what happens between harvest and your doorbell.</p>
         </div>
-        <div className="grid grid-cols-4 md:grid-cols-4 max-md:grid-cols-2 gap-0 border-t border-line max-md:gap-y-8 max-md:border-t-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-0 border-t border-line max-sm:border-t-0 max-sm:gap-y-8">
           {[
             { num: '01', title: 'You subscribe', desc: 'Pick a plan and a delivery slot. Change your mind whenever — daily, alternate days, or weekly.' },
             { num: '02', title: 'We harvest at dawn', desc: 'Our partner farms near Kanakapura pick only what\'s ordered for that day — nothing sits in storage.' },
             { num: '03', title: 'Chilled within hours', desc: 'Coconuts are washed, trimmed, and moved into cold crates before the afternoon heat sets in.' },
             { num: '04', title: 'Delivered, ready to cut', desc: 'A pre-scored top means no machete required — just slice along the line and drink.' }
           ].map((s, i) => (
-            <div key={i} className={`pt-8 pr-6 md:border-r border-line relative ${i === 3 ? 'md:border-r-0 md:pr-0' : ''} ${i % 2 === 0 ? 'max-md:border-r max-md:pr-6' : 'max-md:pl-6 max-md:pr-0'}`}>
+            <div key={i} className={`pt-8 pr-6 md:border-r border-line relative ${i === 3 ? 'md:border-r-0 md:pr-0' : ''} max-sm:border-r-0 max-sm:px-0 max-sm:pt-2 sm:max-md:${i % 2 === 0 ? 'border-r pr-6' : 'pl-6 pr-0'}`}>
               <span className="font-serif text-[1.1rem] text-gold-deep mb-4 block">{s.num}</span>
               <h3 className="text-[1.18rem] mb-2.5 text-green-deep">{s.title}</h3>
               <p className="text-ink-soft text-[0.95rem]">{s.desc}</p>
@@ -378,7 +378,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="pt-20 pb-10 border-t border-line mt-10">
         <div className="px-8 max-w-[1180px] mx-auto max-sm:px-5">
-          <div className="grid grid-cols-1 md:grid-cols-[1.3fr_1fr_1fr_1fr] gap-10 mb-14 max-md:grid-cols-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[1.3fr_1fr_1fr_1fr] gap-10 mb-14">
             <div>
               <Link href="/" className="font-serif text-2xl font-semibold text-green-deep flex items-center gap-2 mb-3.5">
                 <svg className="w-[26px] h-[26px] shrink-0" viewBox="0 0 26 26" fill="none">
