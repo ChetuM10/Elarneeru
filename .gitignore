@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Production builds
+dist/
+**/dist/
+.next/
+**/out/
+build/
+
+# Environment and sensitive keys
+.env
+.env.*
+.env*.local
+*.pem
+*.key
+*firebase*.json
+!frontend/package.json
+!backend/package.json
+
+# IDE and OS
+.DS_Store
+Thumbs.db
+.agents/
+*.tsbuildinfo

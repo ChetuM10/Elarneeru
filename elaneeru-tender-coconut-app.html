@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elaneeru — Farm-fresh tender coconuts, delivered</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg: #F2F4E6;
+    --bg-card: #FFFDF7;
+    --ink: #14312A;
+    --ink-soft: #3E5A4F;
+    --green-deep: #123A2C;
+    --green-mid: #2E7D5C;
+    --green-pale: #D3E6C6;
+    --gold: #E3A23A;
+    --gold-deep: #C4831F;
+    --brown: #6B4226;
+    --line: rgba(20,49,42,0.14);
+    --shadow: 0 1px 2px rgba(20,49,42,0.06);
+    --radius-organic: 42% 58% 61% 39% / 45% 40% 60% 55%;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    color:var(--green-deep);
+    font-weight:600;
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  img,svg{ display:block; max-width:100%; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; }
+
+  :focus-visible{
+    outline: 2.5px solid var(--gold-deep);
+    outline-offset: 3px;
+  }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(242,244,230,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px;
+    max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-size:1.5rem;
+    font-weight:600;
+    color:var(--green-deep);
+    display:flex; align-items:center; gap:9px;
+  }
+  .logo-mark{ width:26px; height:26px; flex-shrink:0; }
+  .nav-links{
+    display:flex; align-items:center; gap:34px;
+    font-size:0.96rem; color:var(--ink-soft); font-weight:500;
+  }
+  .nav-links a{ transition:color .15s ease; }
+  .nav-links a:hover{ color:var(--green-deep); }
+  .nav-cta{
+    background:var(--green-deep);
+    color:#F9F7EE;
+    padding:11px 22px;
+    border-radius:8px;
+    font-weight:600;
+    font-size:0.94rem;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .nav-cta:hover{ background:var(--green-mid); transform:translateY(-1px); }
+  .nav-toggle{ display:none; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:88px 32px 60px;
+    max-width:1180px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:56px;
+    align-items:center;
+  }
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:0.92rem; color:var(--ink-soft); font-weight:500;
+    margin-bottom:22px;
+  }
+  .hero-eyebrow .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--gold); flex-shrink:0;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 4.4vw, 3.6rem);
+    max-width:12ch;
+    margin-bottom:22px;
+  }
+  .hero p.lede{
+    font-size:1.14rem;
+    color:var(--ink-soft);
+    max-width:42ch;
+    margin-bottom:34px;
+  }
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:38px; }
+  .btn-primary, .btn-secondary{
+    padding:14px 26px;
+    border-radius:8px;
+    font-weight:600;
+    font-size:0.98rem;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{
+    background:var(--gold);
+    color:var(--green-deep);
+  }
+  .btn-primary:hover{ background:var(--gold-deep); transform:translateY(-1px); }
+  .btn-secondary{
+    background:transparent;
+    color:var(--green-deep);
+    border:1.5px solid var(--line);
+  }
+  .btn-secondary:hover{ border-color:var(--green-deep); }
+
+  .pincode-check{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 18px;
+    max-width:420px;
+    box-shadow:var(--shadow);
+  }
+  .pincode-check label{
+    display:block; font-size:0.86rem; font-weight:600; color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  .pincode-row{ display:flex; gap:10px; }
+  .pincode-row input{
+    flex:1;
+    padding:11px 13px;
+    border-radius:8px;
+    border:1.5px solid var(--line);
+    font-family:inherit; font-size:0.96rem;
+    background:#fff;
+    color:var(--ink);
+  }
+  .pincode-row input:focus{ border-color:var(--green-mid); outline:none; }
+  .pincode-row button{
+    background:var(--green-deep);
+    color:#F9F7EE;
+    padding:0 20px;
+    border-radius:8px;
+    font-weight:600; font-size:0.92rem;
+    transition:background .15s ease;
+  }
+  .pincode-row button:hover{ background:var(--green-mid); }
+  .pincode-result{
+    margin-top:12px; font-size:0.88rem;
+    min-height:0;
+  }
+  .pincode-result.show{ display:block; }
+  .pincode-result{ display:none; }
+  .pincode-result.ok{ color:var(--green-mid); font-weight:600; }
+  .pincode-result.no{ color:var(--brown); font-weight:600; }
+
+  .hero-art{ position:relative; }
+  .hero-art svg{ width:100%; height:auto; }
+  .blob-bg{
+    position:absolute; inset:-8%;
+    z-index:0;
+  }
+
+  /* ---------- TRUST STRIP ---------- */
+  .trust-strip{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:var(--bg-card);
+  }
+  .trust-inner{
+    max-width:1180px; margin:0 auto; padding:26px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:18px;
+  }
+  .trust-item{
+    display:flex; align-items:center; gap:10px;
+    font-size:0.92rem; color:var(--ink-soft); font-weight:500;
+  }
+  .trust-item svg{ width:19px; height:19px; flex-shrink:0; color:var(--green-mid); }
+
+  /* ---------- SECTION HEADS ---------- */
+  section{ padding:96px 0; }
+  .section-head{ max-width:640px; margin-bottom:56px; }
+  .section-head h2{ font-size:clamp(1.9rem, 3vw, 2.5rem); margin-bottom:16px; }
+  .section-head p{ color:var(--ink-soft); font-size:1.06rem; max-width:50ch; }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:0;
+    counter-reset:step;
+    border-top:1px solid var(--line);
+  }
+  .step{
+    padding:34px 26px 0 0;
+    border-right:1px solid var(--line);
+    position:relative;
+  }
+  .step:last-child{ border-right:none; padding-right:0; }
+  .step-num{
+    font-family:'Fraunces', serif;
+    font-size:1.1rem;
+    color:var(--gold-deep);
+    margin-bottom:18px;
+    display:block;
+  }
+  .step h3{ font-size:1.18rem; margin-bottom:10px; color:var(--green-deep); }
+  .step p{ color:var(--ink-soft); font-size:0.95rem; }
+
+  /* ---------- PLANS ---------- */
+  .plans-section{ background:var(--green-deep); color:#F3EFDF; }
+  .plans-section .section-head h2{ color:#F9F7EE; }
+  .plans-section .section-head p{ color:#C9D8CC; }
+
+  .plans-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+  }
+  .plan-card{
+    background:#173F30;
+    border:1.5px solid rgba(249,247,238,0.14);
+    border-radius:18px;
+    padding:30px 26px;
+    cursor:pointer;
+    transition:border-color .15s ease, transform .15s ease, background .15s ease;
+    display:flex; flex-direction:column;
+  }
+  .plan-card:hover{ transform:translateY(-3px); }
+  .plan-card.selected{
+    border-color:var(--gold);
+    background:#1D4B3A;
+  }
+  .plan-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
+  .plan-tag{
+    font-size:0.78rem; font-weight:600; color:var(--gold);
+    background:rgba(227,162,58,0.14);
+    padding:4px 10px; border-radius:20px;
+  }
+  .radio-dot{
+    width:20px; height:20px; border-radius:50%;
+    border:2px solid rgba(249,247,238,0.4);
+    flex-shrink:0; position:relative;
+    transition:border-color .15s ease;
+  }
+  .plan-card.selected .radio-dot{ border-color:var(--gold); }
+  .radio-dot::after{
+    content:''; position:absolute; inset:3px; border-radius:50%;
+    background:var(--gold);
+    transform:scale(0);
+    transition:transform .15s ease;
+  }
+  .plan-card.selected .radio-dot::after{ transform:scale(1); }
+
+  .plan-card h3{ font-family:'Fraunces', serif; color:#F9F7EE; font-size:1.3rem; margin-bottom:8px; font-weight:600; }
+  .plan-desc{ color:#B9C9BB; font-size:0.92rem; margin-bottom:22px; flex-grow:1; }
+  .plan-price{ display:flex; align-items:baseline; gap:6px; }
+  .plan-price .amount{ font-family:'Fraunces', serif; font-size:2rem; color:#F9F7EE; font-weight:600; }
+  .plan-price .unit{ color:#9FB3A2; font-size:0.88rem; }
+
+  .plan-summary{
+    margin-top:34px;
+    background:#0F2E22;
+    border-radius:14px;
+    padding:22px 26px;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px;
+  }
+  .plan-summary .sum-label{ font-size:0.86rem; color:#9FB3A2; margin-bottom:4px; }
+  .plan-summary .sum-value{ font-family:'Fraunces', serif; font-size:1.5rem; color:#F9F7EE; }
+
+  /* ---------- FRESHNESS ---------- */
+  .fresh-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:20px;
+  }
+  .fresh-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:30px;
+    display:flex; gap:18px; align-items:flex-start;
+  }
+  .fresh-icon{
+    width:44px; height:44px; flex-shrink:0;
+    background:var(--green-pale);
+    border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .fresh-icon svg{ width:22px; height:22px; color:var(--green-deep); }
+  .fresh-card h3{ font-size:1.08rem; margin-bottom:6px; color:var(--green-deep); }
+  .fresh-card p{ color:var(--ink-soft); font-size:0.93rem; }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonial-row{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+  }
+  .testimonial{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:28px;
+  }
+  .testimonial p.quote{
+    font-family:'Fraunces', serif;
+    font-size:1.08rem;
+    color:var(--green-deep);
+    margin-bottom:20px;
+    line-height:1.45;
+  }
+  .testimonial .who{ font-size:0.86rem; color:var(--ink-soft); font-weight:500; }
+  .testimonial .who span{ color:var(--green-deep); font-weight:600; }
+
+  /* ---------- CTA / FOOTER ---------- */
+  .cta-band{
+    background:var(--gold);
+    border-radius:26px;
+    max-width:1180px; margin:0 auto;
+    padding:56px 48px;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:24px;
+  }
+  .cta-band h2{ font-size:1.9rem; max-width:16ch; }
+  .cta-band .btn-primary{ background:var(--green-deep); color:#F9F7EE; }
+  .cta-band .btn-primary:hover{ background:#0F2E22; }
+
+  footer{ padding:80px 0 40px; border-top:1px solid var(--line); margin-top:40px; }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.3fr repeat(3, 1fr);
+    gap:40px;
+    margin-bottom:60px;
+  }
+  .footer-col h4{ font-size:0.86rem; font-weight:600; color:var(--green-deep); margin-bottom:16px; }
+  .footer-col a{
+    display:block; color:var(--ink-soft); font-size:0.92rem;
+    margin-bottom:10px; transition:color .15s ease;
+  }
+  .footer-col a:hover{ color:var(--green-deep); }
+  .footer-brand .logo{ margin-bottom:14px; }
+  .footer-brand p{ color:var(--ink-soft); font-size:0.9rem; max-width:32ch; }
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:26px; border-top:1px solid var(--line);
+    font-size:0.84rem; color:var(--ink-soft);
+    flex-wrap:wrap; gap:12px;
+  }
+
+  /* ---------- TOAST ---------- */
+  .toast{
+    position:fixed; bottom:28px; left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--green-deep); color:#F9F7EE;
+    padding:14px 24px; border-radius:10px;
+    font-size:0.92rem; font-weight:500;
+    box-shadow:0 8px 24px rgba(0,0,0,0.18);
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    z-index:100;
+    display:flex; align-items:center; gap:10px;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .hero{ grid-template-columns:1fr; padding-top:44px; }
+    .hero-art{ order:-1; max-width:340px; margin:0 auto 12px; }
+    .steps{ grid-template-columns:repeat(2, 1fr); row-gap:34px; }
+    .step{ border-right:none; padding-right:0; }
+    .step:nth-child(odd){ border-right:1px solid var(--line); padding-right:26px; }
+    .plans-grid{ grid-template-columns:1fr; }
+    .fresh-grid{ grid-template-columns:1fr; }
+    .testimonial-row{ grid-template-columns:1fr; }
+    .footer-grid{ grid-template-columns:1fr 1fr; }
+    .nav-links{ display:none; }
+    .cta-band{ padding:40px 28px; }
+  }
+  @media (max-width:560px){
+    .wrap, nav, .hero, .trust-inner{ padding-left:20px; padding-right:20px; }
+    section{ padding:64px 0; }
+    .footer-grid{ grid-template-columns:1fr; gap:30px; }
+    .cta-band{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 26 26" fill="none">
+        <circle cx="13" cy="14" r="10" fill="#E3A23A"/>
+        <path d="M13 4C13 4 9 6 9 9" stroke="#123A2C" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M13 4C13 4 17 6 17 9" stroke="#123A2C" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      elaneeru
+    </div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#plans">Plans</a>
+      <a href="#freshness">Why us</a>
+      <a href="#stories">Stories</a>
+    </div>
+    <a href="#plans" class="nav-cta">Start subscription</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-copy">
+    <div class="hero-eyebrow"><span class="dot"></span>Now delivering across Bengaluru</div>
+    <h1>Coconut water, cut this morning.</h1>
+    <p class="lede">We pick tender coconuts straight from the farm before sunrise and bring them to your door the same day — chilled, hygienically sealed, and ready to open.</p>
+    <div class="hero-actions">
+      <a href="#plans" class="btn-primary">Start your subscription</a>
+      <a href="#how" class="btn-secondary">See how it works</a>
+    </div>
+    <div class="pincode-check">
+      <label for="pincode">Check delivery in your area</label>
+      <div class="pincode-row">
+        <input type="text" id="pincode" placeholder="Enter your pincode" maxlength="6" inputmode="numeric">
+        <button id="pincodeBtn">Check</button>
+      </div>
+      <p class="pincode-result" id="pincodeResult"></p>
+    </div>
+  </div>
+
+  <div class="hero-art">
+    <svg viewBox="0 0 460 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M230 30C310 30 390 90 400 190C410 290 350 400 230 420C110 400 50 290 60 190C70 90 150 30 230 30Z" fill="#D3E6C6"/>
+      <path d="M120 260C90 200 100 130 150 90C130 140 130 200 155 250" stroke="#2E7D5C" stroke-width="8" stroke-linecap="round" fill="none"/>
+      <path d="M340 260C370 200 360 130 310 90C330 140 330 200 305 250" stroke="#2E7D5C" stroke-width="8" stroke-linecap="round" fill="none"/>
+      <ellipse cx="230" cy="270" rx="95" ry="110" fill="#B7CE8E"/>
+      <ellipse cx="230" cy="270" rx="95" ry="110" fill="url(#huskGrad)" fill-opacity="0.5"/>
+      <path d="M155 195C155 165 190 148 230 148C270 148 305 165 305 195L295 200C265 178 195 178 165 200Z" fill="#E3A23A"/>
+      <ellipse cx="230" cy="197" rx="72" ry="20" fill="#F9F1DC"/>
+      <ellipse cx="230" cy="197" rx="46" ry="12" fill="#EADFC0"/>
+      <rect x="222" y="160" width="9" height="52" rx="4" fill="#123A2C" transform="rotate(-8 222 160)"/>
+      <ellipse cx="140" cy="330" rx="46" ry="54" fill="#C6DBA9"/>
+      <ellipse cx="322" cy="330" rx="46" ry="54" fill="#C6DBA9"/>
+      <defs>
+        <linearGradient id="huskGrad" x1="230" y1="160" x2="230" y2="380" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#9FBE73"/>
+          <stop offset="1" stop-color="#7FA85A"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</section>
+
+<div class="trust-strip">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>
+      Harvested before sunrise
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>
+      On your doorstep the same day
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>
+      No sugar, no preservatives
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>
+      Pause or cancel anytime
+    </div>
+  </div>
+</div>
+
+<section id="how" class="wrap">
+  <div class="section-head">
+    <h2>From the farm to your fridge, in one day</h2>
+    <p>Most tender coconuts sold on the street have been sitting around for days. Ours haven't. Here's what happens between harvest and your doorbell.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <h3>You subscribe</h3>
+      <p>Pick a plan and a delivery slot. Change your mind whenever — daily, alternate days, or weekly.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <h3>We harvest at dawn</h3>
+      <p>Our partner farms near Kanakapura pick only what's ordered for that day — nothing sits in storage.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <h3>Chilled within hours</h3>
+      <p>Coconuts are washed, trimmed, and moved into cold crates before the afternoon heat sets in.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">04</span>
+      <h3>Delivered, ready to cut</h3>
+      <p>A pre-scored top means no machete required — just slice along the line and drink.</p>
+    </div>
+  </div>
+</section>
+
+<section id="plans" class="plans-section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Pick a plan that fits your week</h2>
+      <p>All plans include free delivery, a spoon for the malai, and the option to skip a day whenever you're travelling.</p>
+    </div>
+
+    <div class="plans-grid">
+      <div class="plan-card" data-price="65" data-qty="1" data-freq="Every day">
+        <div class="plan-top">
+          <span class="plan-tag">Solo</span>
+          <span class="radio-dot"></span>
+        </div>
+        <h3>Solo Sip</h3>
+        <p class="plan-desc">One tender coconut, delivered every morning. Built for a single daily habit.</p>
+        <div class="plan-price"><span class="amount">₹65</span><span class="unit">/ day</span></div>
+      </div>
+
+      <div class="plan-card selected" data-price="170" data-qty="3" data-freq="Every day">
+        <div class="plan-top">
+          <span class="plan-tag">Most chosen</span>
+          <span class="radio-dot"></span>
+        </div>
+        <h3>Family Pack</h3>
+        <p class="plan-desc">Three coconuts a day — enough for a small household to share.</p>
+        <div class="plan-price"><span class="amount">₹170</span><span class="unit">/ day</span></div>
+      </div>
+
+      <div class="plan-card" data-price="520" data-qty="10" data-freq="Twice a week">
+        <div class="plan-top">
+          <span class="plan-tag">Bulk</span>
+          <span class="radio-dot"></span>
+        </div>
+        <h3>Office Crate</h3>
+        <p class="plan-desc">Ten coconuts, twice a week — for offices, gyms, and cafés.</p>
+        <div class="plan-price"><span class="amount">₹520</span><span class="unit">/ delivery</span></div>
+      </div>
+    </div>
+
+    <div class="plan-summary">
+      <div>
+        <div class="sum-label">Your subscription</div>
+        <div class="sum-value" id="summaryPlan">Family Pack — 3 coconuts, every day</div>
+      </div>
+      <div>
+        <div class="sum-label">Estimated monthly cost</div>
+        <div class="sum-value" id="summaryPrice">₹5,100</div>
+      </div>
+      <a href="#" class="btn-primary" id="subscribeBtn">Start subscription</a>
+    </div>
+  </div>
+</section>
+
+<section id="freshness" class="wrap">
+  <div class="section-head">
+    <h2>Why tender coconut, why us</h2>
+    <p>Tender coconut water is one of the few drinks that's genuinely good for you. We just make sure the one you get is the one you'd have picked yourself.</p>
+  </div>
+  <div class="fresh-grid">
+    <div class="fresh-card">
+      <div class="fresh-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C12 2 6 9 6 14a6 6 0 0 0 12 0c0-5-6-12-6-12z"/></svg>
+      </div>
+      <div>
+        <h3>Natural electrolytes</h3>
+        <p>Potassium and sodium in a ratio your body actually absorbs — no added sugar needed.</p>
+      </div>
+    </div>
+    <div class="fresh-card">
+      <div class="fresh-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 10h16"/></svg>
+      </div>
+      <div>
+        <h3>Same-day traceability</h3>
+        <p>Every crate is tagged with the farm and the harvest date, so you know exactly how fresh it is.</p>
+      </div>
+    </div>
+    <div class="fresh-card">
+      <div class="fresh-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg>
+      </div>
+      <div>
+        <h3>Cold chain, start to finish</h3>
+        <p>From the farm crate to your doorstep, coconuts never sit out in the heat.</p>
+      </div>
+    </div>
+    <div class="fresh-card">
+      <div class="fresh-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <div>
+        <h3>Pre-scored, easy open</h3>
+        <p>No machete, no mess — just cut along the marked line and drink straight from the shell.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stories" class="wrap">
+  <div class="section-head">
+    <h2>What early customers are saying</h2>
+    <p>We're still in beta — a small set of neighbourhoods in Bengaluru have been trying us out.</p>
+  </div>
+  <div class="testimonial-row">
+    <div class="testimonial">
+      <p class="quote">"The water actually tastes like it did at my grandmother's farm in Mandya. Ordered again the same day."</p>
+      <p class="who">— <span>Ananya R.</span>, Indiranagar</p>
+    </div>
+    <div class="testimonial">
+      <p class="quote">"I run a small café and switched from the street vendor to the Office Crate. Consistent size, consistent water — customers noticed."</p>
+      <p class="who">— <span>Farhan S.</span>, HSR Layout</p>
+    </div>
+    <div class="testimonial">
+      <p class="quote">"Skipped deliveries for a week while travelling with one tap. That alone is worth it."</p>
+      <p class="who">— <span>Meera K.</span>, Jayanagar</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta-band">
+    <h2>Ready to taste what real freshness is?</h2>
+    <a href="#plans" class="btn-primary">Start your subscription</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="logo">
+          <svg class="logo-mark" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="14" r="10" fill="#E3A23A"/>
+            <path d="M13 4C13 4 9 6 9 9" stroke="#123A2C" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M13 4C13 4 17 6 17 9" stroke="#123A2C" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          elaneeru
+        </div>
+        <p>Farm-fresh tender coconuts, subscribed and delivered daily across Bengaluru.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#how">How it works</a>
+        <a href="#plans">Plans &amp; pricing</a>
+        <a href="#freshness">Why tender coconut</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">Our farms</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Delivery areas</a>
+        <a href="#">Manage subscription</a>
+        <a href="#">Help centre</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Elaneeru. Beta preview.</span>
+      <span>Bengaluru, Karnataka</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Plan selection
+  const planCards = document.querySelectorAll('.plan-card');
+  const summaryPlan = document.getElementById('summaryPlan');
+  const summaryPrice = document.getElementById('summaryPrice');
+
+  function formatINR(n){
+    return '₹' + n.toLocaleString('en-IN');
+  }
+
+  function updateSummary(card){
+    const price = parseInt(card.dataset.price, 10);
+    const qty = card.dataset.qty;
+    const freq = card.dataset.freq;
+    const name = card.querySelector('h3').textContent;
+    const multiplier = freq === 'Every day' ? 30 : (freq === 'Twice a week' ? 8.6 : 30);
+    const monthly = Math.round(price * multiplier);
+    summaryPlan.textContent = `${name} — ${qty} coconut${qty > 1 ? 's' : ''}, ${freq.toLowerCase()}`;
+    summaryPrice.textContent = formatINR(monthly);
+  }
+
+  planCards.forEach(card => {
+    card.addEventListener('click', () => {
+      planCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      updateSummary(card);
+    });
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'radio');
+    card.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+
+  // Toast helper
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+  }
+
+  document.getElementById('subscribeBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    showToast('This is a beta preview — sign-ups open soon 🥥');
+  });
+
+  // Pincode checker (demo logic: a handful of Bengaluru pincodes marked as serviceable)
+  const servedPincodes = new Set(['560001','560008','560034','560038','560068','560095','560102']);
+  const pincodeInput = document.getElementById('pincode');
+  const pincodeResult = document.getElementById('pincodeResult');
+
+  document.getElementById('pincodeBtn').addEventListener('click', () => {
+    const val = pincodeInput.value.trim();
+    if(val.length !== 6 || isNaN(val)){
+      pincodeResult.textContent = 'Enter a valid 6-digit pincode.';
+      pincodeResult.className = 'pincode-result show no';
+      return;
+    }
+    if(servedPincodes.has(val)){
+      pincodeResult.textContent = "You're in luck — we deliver to your area.";
+      pincodeResult.className = 'pincode-result show ok';
+    } else {
+      pincodeResult.textContent = "Not there yet — but we're expanding fast. We'll notify you.";
+      pincodeResult.className = 'pincode-result show no';
+    }
+  });
+
+  pincodeInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      document.getElementById('pincodeBtn').click();
+    }
+  });
+</script>
+
+</body>
+</html>
