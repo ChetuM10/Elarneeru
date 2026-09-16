@@ -4,6 +4,7 @@ import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { auth } from '../lib/firebase';
+import { API_BASE_URL } from '../lib/api';
 import { RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from 'firebase/auth';
 
 interface LoginModalProps {
@@ -102,7 +103,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       const idToken = await userCredential.user.getIdToken(true);
 
       // Exchange Firebase token with backend to set cookie before navigation
-      const res = await fetch('http://localhost:4000/api/v1/auth/verify', {
+      const res = await fetch(`${API_BASE_URL}/api/v1/auth/verify`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

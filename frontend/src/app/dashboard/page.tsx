@@ -4,6 +4,7 @@ import { useEffect, useState, FormEvent } from 'react';
 import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
 import { useAuth } from '@/contexts/AuthContext';
+import { API_BASE_URL } from '@/lib/api';
 
 const MapPicker = dynamic(() => import('../../components/MapPicker'), {
   ssr: false,
@@ -36,7 +37,7 @@ export default function Dashboard() {
         return;
       }
       setError('');
-      const res = await fetch('http://localhost:4000/api/v1/auth/me', {
+      const res = await fetch(`${API_BASE_URL}/api/v1/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -65,7 +66,7 @@ export default function Dashboard() {
     setSaving(true);
     try {
       const token = Cookies.get('token');
-      const res = await fetch('http://localhost:4000/api/v1/auth/profile', {
+      const res = await fetch(`${API_BASE_URL}/api/v1/auth/profile`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -122,7 +123,7 @@ export default function Dashboard() {
     setSavingAddress(true);
     try {
       const token = Cookies.get('token');
-      const res = await fetch(`http://localhost:4000/api/v1/addresses/${editingAddress.id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/addresses/${editingAddress.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -148,7 +149,7 @@ export default function Dashboard() {
     setSavingAddress(true);
     try {
       const token = Cookies.get('token');
-      const res = await fetch(`http://localhost:4000/api/v1/addresses/${mapAddressId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/addresses/${mapAddressId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -222,7 +223,7 @@ export default function Dashboard() {
   const fetchSkipDates = async (subscriptionId: string) => {
     try {
       const token = Cookies.get('token');
-      const res = await fetch(`http://localhost:4000/api/v1/subscriptions/${subscriptionId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/subscriptions/${subscriptionId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -266,7 +267,7 @@ export default function Dashboard() {
     setSkipSuccess('');
     try {
       const token = Cookies.get('token');
-      const res = await fetch(`http://localhost:4000/api/v1/subscriptions/${skipModalSubId}/skip-date`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/subscriptions/${skipModalSubId}/skip-date`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -295,7 +296,7 @@ export default function Dashboard() {
   const handleUnskip = async (subscriptionId: string, skipDateId: string) => {
     try {
       const token = Cookies.get('token');
-      const res = await fetch(`http://localhost:4000/api/v1/subscriptions/${subscriptionId}/skip-date/${skipDateId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/subscriptions/${subscriptionId}/skip-date/${skipDateId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -330,7 +331,7 @@ export default function Dashboard() {
     setCancelError('');
     try {
       const token = Cookies.get('token');
-      const res = await fetch(`http://localhost:4000/api/v1/subscriptions/${cancelModalSubId}/cancel`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/subscriptions/${cancelModalSubId}/cancel`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });

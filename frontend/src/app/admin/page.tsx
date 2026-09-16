@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/contexts/AuthContext';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Delivery {
   id: string;
@@ -48,7 +49,7 @@ export default function AdminDashboard() {
     setFetchLoading(true);
     try {
       const token = Cookies.get('token');
-      const res = await fetch(`http://localhost:4000/api/v1/admin/deliveries?date=${dateStr}`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/admin/deliveries?date=${dateStr}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
@@ -66,7 +67,7 @@ export default function AdminDashboard() {
   const markDelivered = async (deliveryId: string) => {
     try {
       const token = Cookies.get('token');
-      const res = await fetch(`http://localhost:4000/api/v1/admin/deliveries/${deliveryId}/status`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/admin/deliveries/${deliveryId}/status`, {
         method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',

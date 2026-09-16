@@ -3,6 +3,7 @@
 import { useState, FormEvent, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import { API_BASE_URL } from '../lib/api';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -27,7 +28,7 @@ export default function CheckoutModal({ isOpen, onClose, planSlug, quantity }: C
   useEffect(() => {
     if (isOpen && planSlug) {
       // Fetch plan details from backend
-      fetch(`http://localhost:4000/api/v1/plans/${planSlug}`)
+      fetch(`${API_BASE_URL}/api/v1/plans/${planSlug}`)
         .then(res => res.json())
         .then(data => {
           if (data.plan) setPlanData(data.plan);
@@ -57,7 +58,7 @@ export default function CheckoutModal({ isOpen, onClose, planSlug, quantity }: C
       const token = Cookies.get('token');
       
       // 1. Check Serviceability
-      const checkRes = await fetch(`http://localhost:4000/api/v1/serviceability/check?pincode=${pincode}`);
+      const checkRes = await fetch(`${API_BASE_URL}/api/v1/serviceability/check?pincode=${pincode}`);
       const checkData = await checkRes.json();
       
       if (!checkRes.ok || !checkData.serviceable) {
@@ -65,7 +66,7 @@ export default function CheckoutModal({ isOpen, onClose, planSlug, quantity }: C
       }
 
       // 2. Save Address
-      const addressRes = await fetch('http://localhost:4000/api/v1/addresses', {
+      const addressRes = await fetch(`${API_BASE_URL}/api/v1/addresses`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +113,7 @@ export default function CheckoutModal({ isOpen, onClose, planSlug, quantity }: C
       // Start tomorrow
       today.setDate(today.getDate() + 1);
       
-      const subRes = await fetch('http://localhost:4000/api/v1/subscriptions', {
+      const subRes = await fetch(`${API_BASE_URL}/api/v1/subscriptions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -135,7 +136,7 @@ export default function CheckoutModal({ isOpen, onClose, planSlug, quantity }: C
       const subscriptionId = subData.subscription.id;
 
       // 2. Create Order
-      const orderRes = await fetch('http://localhost:4000/api/v1/payments/create-order', {
+      const orderRes = await fetch(`${API_BASE_URL}/api/v1/payments/create-order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,7 +166,7 @@ export default function CheckoutModal({ isOpen, onClose, planSlug, quantity }: C
         handler: async function (response: any) {
           // 4. Verify Payment
           try {
-            await fetch('http://localhost:4000/api/v1/payments/verify', {
+            await fetch(`${API_BASE_URL}/api/v1/payments/verify`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

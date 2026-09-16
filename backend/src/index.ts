@@ -22,9 +22,22 @@ const app = express();
 // ── Global Middleware ──
 app.use(helmet());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? ['https://elaneeru.com']
-    : ['http://localhost:3000', 'http://localhost:5173'],
+  origin: (origin, callback) => {
+    // Allow server-to-server or no origin
+    if (!origin) return callback(null, true);
+    
+    // Allow localhost, onrender.com, vercel.app, or custom FRONTEND_URL
+    if (
+      origin.includes('localhost') ||
+      origin.endsWith('.onrender.com') ||
+      origin.endsWith('.vercel.app') ||
+      origin === process.env.FRONTEND_URL ||
+      origin === 'https://elaneeru.com'
+    ) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
   credentials: true,
 }));
 app.use(morgan('dev'));

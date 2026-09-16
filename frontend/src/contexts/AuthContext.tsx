@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../lib/firebase';
+import { API_BASE_URL } from '../lib/api';
 import Cookies from 'js-cookie';
 
 interface AppUser {
@@ -42,7 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // When auth state changes to logged in, sync with backend
         try {
           const idToken = await firebaseUser.getIdToken(true);
-          const response = await fetch('http://localhost:4000/api/v1/auth/verify', {
+          const response = await fetch(`${API_BASE_URL}/api/v1/auth/verify`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
